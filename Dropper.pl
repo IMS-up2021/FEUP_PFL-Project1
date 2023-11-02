@@ -1,6 +1,18 @@
 % Define the game board as an 8x8 grid of cells.
 % '.' represents an empty cell.
 
+print_board([]).
+print_board([Row|Rest]) :-
+    print_row(Row),
+    nl, 
+    print_board(Rest).
+
+print_row([]).
+print_row([X|Xs]) :-
+    write(X),  % print matrix element.
+    write(' '), % Adds a space.
+    print_row(Xs).
+
 initialize_board(Board) :-
     Board = [
         [., ., ., ., ., ., ., .],
@@ -12,6 +24,8 @@ initialize_board(Board) :-
         [., ., ., ., ., ., ., .],
         [., ., ., ., ., ., ., .]
     ].
+
+
 
 % Predicate to place a stone on the board.
 place_stone(Board, Row, Col, Player, NewBoard) :-
@@ -25,16 +39,6 @@ replace([H|T], I, X, [H|R]) :-
     I > 0,
     I1 is I - 1,
     replace(T, I1, X, R).
-
-nth0(N, List, Element) :-
-    nth0(N, List, Element, _).
-
-% Recursive version of nth0/4.
-nth0(0, [H|_], H, _) :- !.
-nth0(N, [_|T], Element, Curr) :-
-    N > 0,
-    N1 is N - 1,
-    nth0(N1, T, Element, Curr).
 
 %--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -56,3 +60,9 @@ compare_group_sizes(Board, Player1, Player2, Winner) :-
 % Calculate the score and determine the winner.
 calculate_score(Board, Player1, Player2, Winner) :-
     compare_group_sizes(Board, Player1, Player2, Winner).
+
+
+% Initialize game.
+initialize_game(board, player1, player2) :-
+    write("Welcome to the game!"),
+    initialize_board(Board), print_board(Board).
