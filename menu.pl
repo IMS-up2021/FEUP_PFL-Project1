@@ -1,3 +1,5 @@
+% Functions for the main menu of the game and logo.
+
 % Write Game Logo.
 
 writeGameBanner:-
