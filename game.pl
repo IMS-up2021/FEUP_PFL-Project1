@@ -61,7 +61,22 @@ choose_move(GameState, Player, Level, Move) :-
     Level = 2,
     chooseBestMove(GameState, Player, Move).
 
+/*não está a funcionar*/
 
+play:-
+    writeGameBanner,
+    write('\n\n'),
+    write('**************** Main Menu *****************\n'),
+    write('*       OPTION               ACTION        *\n'),
+    write('*         1.            Player VS Player   *\n'),
+    write('*         2.            Player VS Computer *\n'),
+    write('*         3.          Computer VS Computer *\n'),
+    write('*         0.                   Quit        *\n'),
+    write('********************************************\n'),
+    read(Choice),
+    menuChoice(Choice).
+
+/*
 play:-
     writeGameBanner,
     write('\n\n'),
@@ -74,3 +89,4 @@ play:-
     write('********************************************\n'),
     read(Choice),
     menuChoice(Choice).
+*/
