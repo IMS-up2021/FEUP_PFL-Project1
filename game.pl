@@ -1,7 +1,7 @@
 :-[logic].
 :-[board].
 :-[menu].
-:-[minimax].
+:-[score].
 :-use_module(library(random)).
 
 /* Move = [Player, X, Y] */
