@@ -15,21 +15,11 @@ To run the Dropper game on a Linux environment, follow these steps:
 
    - Download SICStus Prolog 4.8 from [[official website link](https://sicstus.sics.se/download4.html)].
    - Follow the installation instructions for your Linux distribution.
-
-2. **Clone the Dropper Game Repository:**
-
-   ```bash
-   git clone [repository_url]
-
-3. **Navigate to the Game Directory:**
-
-   ```bash
-   cd dropper-game
    
-5. **Run the Game:**
+2. **Run the Game:**
 
    ```bash
-   sicstus -l game.pl
+   ?- [game].
    ```
    This will start the Dropper game in the SICStus Prolog interpreter.
 
@@ -42,29 +32,18 @@ To run the Dropper game on a Windows environment, follow these steps:
 
    - Download SICStus Prolog 4.8 from [[official website link](https://sicstus.sics.se/download4.html)].
    - Follow the installation instructions for your Windows distribution.
-
-2. **Clone the Dropper Game Repository:**
-
-   ```bash
-   git clone [repository_url]
-
-3. **Navigate to the Game Directory:**
-
-   ```bash
-   cd dropper-game
    
-5. **Run the Game:**
-   - Open the SICStus Prolog interpreter.
-   - Load the game by typing:
-    
-   ```bash
-   ['game.pl'].
-   ```
-  This will load the Dropper game.
-  ```bash
-  start_game.
-  ```
-  This will start the Dropper game.
+2. **Run the Game:**
+   The steps to carry out the execution:
+  - open the SICStus interpreter;
+  - consult (`File` in the upper right corner -> `Consult` -> choose the file) the `game.pl` file;
+  - after that, run SICStus.
+
+    ```bash
+    ?- play.
+    ```
+ 
+    This will start the Dropper game.
 
   ## Description of the Game
 
@@ -94,3 +73,52 @@ The Dropper game combines strategic thinking and tactical maneuvers to outmaneuv
 
 **More Information:**
 - [[Official Game Website Link](https://boardgamegeek.com/boardgame/384171/dropper)]
+
+
+## Logic of the game
+The game state is made up of:
+  - The current state of the board, which is represented as a matrix where each cell in the matrix represents a square on the board. Each square on the board is undifferentiated in terms of color, as color is not relevant to the game.
+  - Each player is identified by the use of the characters 'x' and 'o'. Player 'x' is Player 1, while player 'o' is Player 2.
+
+### Estado Inicial (8x8)
+```
+[
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+] 
+```
+
+### Estado Intermédio (8x8)
+```
+[
+    [' ', ' ', ' ', ' ', 'o', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', 'x', ' ', ' ', ' '],
+    [' ', ' ', ' ', 'o', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', 'x', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', 'x', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+] 
+```
+
+### Estado Final (8x8)
+```
+[
+    ['x', 'o', 'o', 'o', 'x', 'o', 'x', 'x'],
+    ['x', 'x', 'o', 'o', 'x', 'o', 'x', 'x'],
+    ['x', 'x', 'x', 'o', 'x', 'o', 'x', 'x'],
+    ['x', 'x', 'x', 'x', 'o', 'o', 'x', 'o'],
+    ['x', 'o', 'x', 'o', 'o', 'o', 'o', 'x'],
+    ['x', 'x', 'x', 'o', 'o', 'o', 'x', 'x'],
+    ['o', 'x', 'o', 'o', 'o', 'o', 'x', 'o'],
+    ['o', 'o', 'o', 'o', 'o', 'o', 'x', 'o']
+] 
+```
+
