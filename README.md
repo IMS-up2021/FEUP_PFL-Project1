@@ -3,7 +3,7 @@
 - **Group Designation:** DROPPER_6
 - **Student Number and Full Name of Group Members:**
   - up202108852 - Inês Martin Soares
-  - [Student Number] - [Full Name]
+  - up202109256 - Patrícia Palmira de Sousa
 
 ## Installation and Execution
 
