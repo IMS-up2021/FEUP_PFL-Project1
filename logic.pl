@@ -127,8 +127,4 @@ get_horizontal_distance(X, HorizontalDistance) :-
     ;
         HorizontalDistance is X - 1
     ).
-
-% -------- 
-
-% Board size.
-board_size(8).
+    
