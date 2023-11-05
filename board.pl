@@ -19,23 +19,28 @@ drawRow([]) :-
 
 /*--- drawBoard function to write the complete board ---*/
 
-drawBoard([Row | GameState]) :-
-    drawRow(Row),
-    write('|___' repeated 8),  % separation line
-    drawBoard(GameState).
+drawBoard(GameState) :-
+    drawBoard(GameState, 1).
 
-/*--- getEmptyRow function to create an empty row of 8 cells ---*/
+drawBoard([Row|GameState], Count) :-
+    drawRow(Row, Count),
+    NewCount is Count + 1,
+    drawBoard(GameState, NewCount).
 
-getEmptyRow([' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']).
+drawBoard([], _).
 
-/*--- getGameState function to create an initially empty 8x8 board ---*/
+/*--- receives the board size (minimum 8) and populates GameState ---*/
 
-getGameState(GameState) :-
-    replicate(8, EmptyRow, GameState).
+getGameState(Size, GameState) :-
+    Size >= 8,  
+    getGameState(Size, GameState, [], Size).
 
-replicate(0, _, []).
-replicate(N, X, [X | Xs]) :-
-    N > 0,
-    N1 is N - 1,
-    replicate(N1, X, Xs).
+getGameState(_, Aux, Aux, 0).
+
+getGameState(Size, GameState, Aux, Counter) :-
+    Counter > 0,
+    replicate(Size, ' ', Row),
+    append(Aux, [Row], NewAux),
+    NewCounter is Counter - 1,
+    getGameState(Size, GameState, NewAux, NewCounter).
 
