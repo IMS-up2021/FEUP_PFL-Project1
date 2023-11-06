@@ -208,14 +208,14 @@ The strategy used to evaluate the state of the board was implemented by the pred
 
 Computer moves have two levels:
 
-- Level 1: The predicate "choose_move" is given "valid_moves" (all valid moves in a certain game state) and, in this case, randomly 
-chooses a number between 0 and the size of "valid_moves"-1 (i.e. an index within the list of all valid moves). The move is then 
+- Level 1: The predicate `choose_move` is given `valid_moves` (all valid moves in a certain game state) and, in this case, randomly 
+chooses a number between 0 and the size of `valid_moves`-1 (i.e. an index within the list of all valid moves). The move is then 
 chosen according to the randomly generated content.
 
-- Level 2: The predicate "choose_move" is assigned "valid_moves" and, in this case, the minimax algorithm is used. It was implemented 
+- Level 2: The predicate `choose_move` is assigned `valid_moves` and, in this case, the minimax algorithm is used. It was implemented 
 as follows: two of the possible moves are selected at a time (2 elements of "ListOfMoves"), 
 the "Value" of the two is compared according to the "Criteria" argument, so only one of two moves is selected. This pair-selection strategy 
-is repeated, thus cutting the "ListOfMoves" in half in each iteration of the algorithm. This process continues until "ListOfMoves" has only 1 
+is repeated, thus cutting the `ListOfMoves` in half in each iteration of the algorithm. This process continues until "ListOfMoves" has only 1 
 element, which will be unified with "BestMove". It should be noted, "Criteria" varies between each iteration of the algorithm so that a comparison 
 is made alternately that values the higher or lower "Value". It has also been imposed the restriction that the last comparison must be to choose the minimum "Value".
 
