@@ -1,13 +1,13 @@
-% Auxiliar functions.
+% Auxiliary functions.
 
-% Returns the list element at the specified position.
+/* Returns the list element at the specified position */
 nth_element([Element | _], 0, Element).
 nth_element([_ | Rest], Index, Element) :-
     Index > 0,
     NewIndex is Index - 1,
     nth_element(Rest, NewIndex, Element).
 
-% Counts the number of occurrences of an element in a list.
+/* Counts the number of occurrences of an element in a list. */
 count_occurrences(_, [], 0).
 count_occurrences(Element, [Head | Tail], Count) :-
     (Element = Head ->
@@ -17,25 +17,25 @@ count_occurrences(Element, [Head | Tail], Count) :-
         count_occurrences(Element, Tail, Count)
     ).
 
-% Clone a list.
+/* Clone a list. */
 clone_list([], []).
 clone_list([Head | Tail], [Head | NewTail]) :-
     clone_list(Tail, NewTail).
 
-% Calculates the size of a list.
+/* Calculates the size of a list. */
 list_size([], 0).
 list_size([_ | Tail], Size) :- 
     list_size(Tail, RestSize),
     Size is 1 + RestSize.
 
-% Replaces an element in a list at the specified position.
+/* Replaces an element in a list at the specified position. */
 replace_element([Old | Tail], 0, Old, New, [New | Tail]).
 replace_element([Head | Tail], Index, Old, New, [Head | NewTail]) :-
     Index > 0,
     NewIndex is Index - 1,
     replace_element(Tail, NewIndex, Old, New, NewTail).
 
-% Returns a part of a list (slicing).
+/* Returns a part of a list (slicing). */
 list_slice(Source, Start, Size, Slice) :-
     list_slice_helper(Source, Start, Size, Slice, []).
 
@@ -60,7 +60,7 @@ replicate_element(Amount, Element, [Element | Rest]) :-
 % Checks if a number is divisible by another.
 is_divisible(X, Y) :- 0 is X mod Y, !.
 
-% -------- 
+/* -------- */
 
 % Gets a list of elements from a column on the board .
 get_column(Board, X, Column) :-
@@ -71,7 +71,7 @@ get_column_helper([Row | Rest], X, [Elem | Column]) :-
     list_nth(Row, X, Elem),
     get_column_helper(Rest, X, Column).
 
-% -------- 
+/* -------- */
 
 % Gets a list of elements on the left diagonal from X2, Y2.
 get_left_diagonal(Board, X2, Y2, Diagonal) :-
@@ -89,7 +89,7 @@ get_left_diagonal_helper(Board, X2, Y2, BoardSize, Acc, Diagonal) :-
     Y3 is Y2 + 1,
     get_left_diagonal_helper(Board, X3, Y3, BoardSize, NewAcc, Diagonal).
 
-% -------- 
+/* -------- */
 
 % Gets a list of right diagonal elements from X2, Y2.
 get_right_diagonal(Board, X2, Y2, Diagonal) :-
@@ -104,9 +104,9 @@ get_right_diagonal_helper(Board, X2, Y2, Acc, Diagonal) :-
     Y3 is Y2 - 1,
     get_right_diagonal_helper(Board, X3, Y3, NewAcc, Diagonal).
 
-% --------
+/* -------- */
 
-% Calculates the vertical distance from the Y position.
+/* Calculates the vertical distance from the Y position. */
 get_vertical_distance(Y, VerticalDistance) :-
     board_size(BoardSize),
     D is div(BoardSize, 2),
@@ -116,9 +116,9 @@ get_vertical_distance(Y, VerticalDistance) :-
         VerticalDistance is Y - 1
     ).
 
-% -------- 
+/* -------- */
 
-% Calculates the horizontal distance from the X position.
+/* Calculates the horizontal distance from the X position. */
 get_horizontal_distance(X, HorizontalDistance) :-
     board_size(BoardSize),
     D is div(BoardSize, 2),
@@ -127,3 +127,57 @@ get_horizontal_distance(X, HorizontalDistance) :-
     ;
         HorizontalDistance is X - 1
     ).
+
+
+/* Functions to verify the winner */
+
+/* Function to count group sizes for a player */
+countPlayerGroups(Player, GameState, GroupSizes) :-
+    findall(Size, (member(Position, GameState), checkGroup(Player, Position, GameState, [], Size)), GroupSizes).
+
+/* Function to check and count the size of a group */
+checkGroup(_, Position, _, Visited, 0) :-
+    member(Position, Visited).
+checkGroup(_, Position, _, _, 0) :-
+    \+ member(Position, GameState),
+    \+ member(Position, Visited).
+checkGroup(Player, Position, GameState, Visited, Size) :-
+    \+ member(Position, Visited),
+    member(Position, GameState),
+    Position = [X, Y],
+    neighborPositions(X, Y, Neighbors),
+    include(neighborContains(Player, GameState), Neighbors, PlayerNeighbors),
+    append(Visited, [Position], NewVisited),
+    findall(NewSize, (member(Neighbor, PlayerNeighbors), checkGroup(Player, Neighbor, GameState, NewVisited, NewSize)), Sizes),
+    sum_list(Sizes, Size).
+
+/* Function to check if a neighbor contains a player stone */
+neighborContains(Player, GameState, [X, Y]) :-
+    nth0(X, GameState, Row),
+    nth0(Y, Row, Player).
+
+/* Function to obtain the positions of neighbors */
+neighborPositions(X, Y, Neighbors) :-
+    Neighbors = [[X1, Y], [X, Y1], [X1, Y1], [X1, Y2], [X2, Y1], [X2, Y2]],
+    X1 is X - 1,
+    X2 is X + 1,
+    Y1 is Y - 1,
+    Y2 is Y + 1.
+
+/* Function to determine the winner based on rules */
+determineWinner(GameState, Winner) :-
+    Players = ['x', 'o'],
+    findall([Player, Sizes], (member(Player, Players), countPlayerGroups(Player, GameState, Sizes)), PlayerGroups),
+    sort(PlayerGroups, SortedPlayerGroups),
+    determineWinnerHelper(SortedPlayerGroups, Winner).
+
+/* Auxiliary function to determine the winner */
+determineWinnerHelper([[Player, Sizes1], [Player, Sizes2] | Rest], Winner) :-
+    Sizes1 = [Size1 | _],
+    Sizes2 = [Size2 | _],
+    (Size1 > Size2, Winner = Player) ;
+    (Size1 < Size2, determineWinnerHelper([[Player, Sizes2] | Rest], Winner)).
+
+determineWinnerHelper(_, Winner) :-
+    Winner = 'Draw'.
+    
