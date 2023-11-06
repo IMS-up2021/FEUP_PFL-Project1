@@ -122,3 +122,67 @@ The game state is made up of:
 ] 
 ```
 
+## How to Choose a Game Mode
+
+To select a game mode, you simply need to enter the number corresponding to the desired mode followed by a period and press Enter. There are three available game modes:
+
+1. Player vs. Player
+2. Player vs. Computer
+3. Computer vs. Computer
+
+Once you choose a mode, you'll be prompted to select the size of the board's side. The board size is arbitrary, with no upper limit, as long as it's an odd number. Keep in mind that larger board sizes will result in longer game durations.
+
+## Game Modes
+
+1. **Player vs. Player**: In this mode, after selecting the board size, the game begins. Player 1 takes the first turn, followed by Player 2, in alternating fashion until the game's conclusion.
+
+2. **Player vs. Computer**: After choosing the board size, you can select the opponent's difficulty level:
+
+   - **Level 1**: The computer makes random moves.
+   - **Level 2**: The computer selects the best moves.
+
+   Player 1 starts the game (Player 1 being the human player, and Player 2 being the computer player). The turn-based cycle continues until the game's end.
+
+3. **Computer vs. Computer**: After choosing the board size, you can select the game mode for both computers:
+
+   - **Level 1**: Both computers make random moves.
+   - **Level 2**: Both computers select the best moves.
+
+When starting a game, a board with the chosen size is displayed. Depending on whether it's the player's turn or the computer's turn, a dialogue requesting the player's input or a dialogue displaying the computer's move is presented.
+
+The game's current state is visualized using the `display_game(+GameState)` function, which displays the current state of the board.
+
+```prolog
+display_game(GameState) :-
+    boardSize(BoardSize),
+    Size is 3*BoardSize+BoardSize-1,
+    nl, writeColumnNumbers(1), nl,
+    write(' '),
+    writeCharNTimes(Size, '_'), nl,
+    drawBoard(GameState, 1), !.
+```
+
+Use is also made of the initial_state predicate, which, upon receiving the size of the board, returns the initial state of the game.
+
+```prolog
+initial_state(Size, GameState) :-
+    \+ divisible(Size, 2),
+    retractall(boardSize(_)),
+    assert(boardSize(Size)),
+    getGameState(Size, GameState, [], Size), !.
+```
+
+## Execution of a Move Process
+
+The process of executing a move is accomplished through the "move" and "valid_moves" predicates. The "valid_moves" predicate receives a list of valid moves for a given position and a specific type of piece, and its functionality is further explained in the "List of Valid Moves" section below.
+On the other hand, the "move" predicate places the player's piece at the position specified in "Move," while also storing essential information such as the state of the new board, the position where the piece is inserted in the new board state, and the identity of the next player responsible for making a move.
+
+```prolog
+move(GameState, Move, NewGameState) :-
+    list_nth(Move, 0, Player),
+    list_nth(Move, 1, X),
+    list_nth(Move, 2, Y),
+    placeStone(GameState, Player, X, Y, NewGameState).
+```
+
+## Game over
