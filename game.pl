@@ -2,6 +2,7 @@
 :-[board].
 :-[menu].
 :-[score].
+:-[playing].
 :-use_module(library(random)).
 
 /* Move = [Player, X, Y] */
