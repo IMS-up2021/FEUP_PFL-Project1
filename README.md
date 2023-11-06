@@ -199,3 +199,65 @@ find_empty_cell(GameState) :-
     member(' ', Row).
 ```
 
+##Evaluation of the board
+
+The strategy used to evaluate the state of the board was implemented by the predicate value(+GameState, +Player, -Value) which returns the number of Player pieces that are still in view of the center so that it can win the game. The smaller the value of this, the closer the player will be to a possible win.
+
+
+##Computer Moves
+
+Computer moves have two levels:
+
+- Level 1: The predicate "choose_move" is given "valid_moves" (all valid moves in a certain game state) and, in this case, randomly 
+chooses a number between 0 and the size of "valid_moves"-1 (i.e. an index within the list of all valid moves). The move is then 
+chosen according to the randomly generated content.
+
+- Level 2: The predicate "choose_move" is assigned "valid_moves" and, in this case, the minimax algorithm is used. It was implemented 
+as follows: two of the possible moves are selected at a time (2 elements of "ListOfMoves"), 
+the "Value" of the two is compared according to the "Criteria" argument, so only one of two moves is selected. This pair-selection strategy 
+is repeated, thus cutting the "ListOfMoves" in half in each iteration of the algorithm. This process continues until "ListOfMoves" has only 1 
+element, which will be unified with "BestMove". It should be noted, "Criteria" varies between each iteration of the algorithm so that a comparison 
+is made alternately that values the higher or lower "Value". It has also been imposed the restriction that the last comparison must be to choose the minimum "Value".
+
+The implemented minimax predicate:
+
+```prolog
+minimax(ListOfMoves, ListOfScores, Criteria, BestMove) :-
+    ((Criteria = 0, NewCriteria is 1) ; (Criteria = 1, NewCriteria is 0)),
+    length(ListOfMoves, L),
+    L \= 1,
+    evaluateInTwos(ListOfMoves, ListOfScores, ReducedMoves, ReducedScores, Criteria),
+    minimax(ReducedMoves, ReducedScores, NewCriteria, BestMove).
+
+minimax([Move], _, _, Move).
+```
+
+The "evaluateInTwos" predicate which, as noted, evaluates two elements of "ListOfMoves" at a time. If "ListOfMoves" has an odd number of elements,
+then the last element is not compared and is kept in the list.
+
+```prolog
+evaluateInTwos([], [], [], [], _).
+
+evaluateInTwos([M], [S], [M], [S], _).
+
+evaluateInTwos([M1, M2 | ListOfMoves], [S1, S2 | ListOfScores], [MoveOption | ReducedMoves], [ScoreOption | ReducedScores], Criteria) :-
+    ((Criteria = 0,
+      ((S1 >= S2, ScoreOption is S1, clone_list(M1, MoveOption)) ;
+      (S2 > S1, ScoreOption is S2, clone_list(M2, MoveOption)))) ;
+    (Criteria = 1,
+      ((S1 =< S2, ScoreOption is S1, clone_list(M1, MoveOption)) ;
+      (S2 < S1, ScoreOption is S2, clone_list(M2, MoveOption)))),
+    evaluateInTwos(ListOfMoves, ListOfScores, ReducedMoves, ReducedScores, Criteria).
+```
+
+##Conclusion
+We don't think we were able to fully implement the Dropper game using the Prolog language.
+
+###Difficulties
+- Implementation of the minimax algorithm, an algorithm targeting binary trees, which had to be adapted to work with lists.
+
+###Improvements
+- Implementation of an effective algorithm for determineWinner.
+
+##Fonts
+- https://boardgamegeek.com/boardgame/384171/dropper

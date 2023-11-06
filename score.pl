@@ -57,3 +57,4 @@ chooseBestMove(GameState, Player, BestMove) :-
     (divisible(L, 2), Levels is div(L, 2) ; \+divisible(L, 2), Levels is div(L, 2) + 1),
     ((divisible(Levels, 2), minimax(ListOfMoves, ListOfScores, 0, BestMove)) ; (\+divisible(Levels, 2), minimax(ListOfMoves, ListOfScores, 1, BestMove))))).
 
+
