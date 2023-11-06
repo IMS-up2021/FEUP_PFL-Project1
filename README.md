@@ -186,3 +186,16 @@ move(GameState, Move, NewGameState) :-
 ```
 
 ## Game over
+
+The "find_empty_cell" function checks if there are any empty cells on the board. If there are no more empty cells, the "game_over" function determines the winner based on the "determineWinner" function.
+
+```prolog
+game_over(GameState, Winner) :-
+    \+ find_empty_cell(GameState),
+    determineWinner(GameState, Winner).
+
+find_empty_cell(GameState) :-
+    member(Row, GameState),
+    member(' ', Row).
+```
+
