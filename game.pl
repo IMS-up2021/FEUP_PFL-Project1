@@ -32,15 +32,21 @@ initial_state(Size, GameState) :-
 valid_moves(GameState, Player, ListOfMoves) :-
     getListOfMoves(GameState, Player, 1, 1, [], ListOfMoves).
 
+/* ----------------------------------------------------- */
+/* Winner */
+
 
 game_over(GameState, Winner) :-
-    boardSize(BoardSize),
-    D is div(BoardSize, 2),
-    list_nth(GameState, D, Row),
-    list_nth(Row, D, Winner),
-    Winner \= ' ',
-    Winner \= " ".
+    \+ find_empty_cell(GameState),
+    determineWinner(GameState, Winner).
+
+/* Function to check if there is an empty cell on the board */
+find_empty_cell(GameState) :-
+    member(Row, GameState),
+    member(' ', Row).
     
+
+/* ---------------------------------------------------- */
 
 choose_move(GameState, Player, Level, Move) :-
     Level = 1,
