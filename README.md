@@ -254,7 +254,9 @@ evaluateInTwos([M1, M2 | ListOfMoves], [S1, S2 | ListOfScores], [MoveOption | Re
 We don't think we were able to fully implement the Dropper game using the Prolog language.
 
 ## Difficulties
-- Implementation of the minimax algorithm, an algorithm targeting binary trees, which had to be adapted to work with lists.
+- Implementation of the minimax algorithm, an algorithm targeting binary trees (to work on lists).
+- Also, there was a small difficulty on importing some prolog libraries.
+- Finally, we were not able to implement correctly an algorithm for determining the Winner.
 
 ## Improvements
 - Implementation of an effective algorithm for determineWinner.
