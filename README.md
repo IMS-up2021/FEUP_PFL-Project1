@@ -199,12 +199,12 @@ find_empty_cell(GameState) :-
     member(' ', Row).
 ```
 
-##Evaluation of the board
+## Evaluation of the board
 
 The strategy used to evaluate the state of the board was implemented by the predicate value(+GameState, +Player, -Value) which returns the number of Player pieces that are still in view of the center so that it can win the game. The smaller the value of this, the closer the player will be to a possible win.
 
 
-##Computer Moves
+## Computer Moves
 
 Computer moves have two levels:
 
@@ -250,14 +250,14 @@ evaluateInTwos([M1, M2 | ListOfMoves], [S1, S2 | ListOfScores], [MoveOption | Re
     evaluateInTwos(ListOfMoves, ListOfScores, ReducedMoves, ReducedScores, Criteria).
 ```
 
-##Conclusion
+## Conclusion
 We don't think we were able to fully implement the Dropper game using the Prolog language.
 
-###Difficulties
+## Difficulties
 - Implementation of the minimax algorithm, an algorithm targeting binary trees, which had to be adapted to work with lists.
 
-###Improvements
+## Improvements
 - Implementation of an effective algorithm for determineWinner.
 
-##Fonts
+## Fonts
 - https://boardgamegeek.com/boardgame/384171/dropper
