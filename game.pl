@@ -42,16 +42,6 @@ game_over(GameState, Winner) :-
     Winner \= " ".
     
 
-/* Value = o número de amigos que nos faltam ver (do ponto de vista do centro), para poder vencer o jogo. Quanto mais pequeno o valor melhor */
-
-value(GameState, Player, Value) :-
-    boardSize(BoardSize),
-    Middle is div(BoardSize, 2)+1,
-    howManyFriendsInSight(GameState, Player, Middle, Middle, Answer),
-    distanceFromPerimeter(Middle, Middle, Distance),
-    Value is Distance-Answer.
-
-
 choose_move(GameState, Player, Level, Move) :-
     Level = 1,
     getListOfMoves(GameState, Player, 1, 1, [], ListOfMoves),
