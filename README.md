@@ -2,8 +2,8 @@
 ## Group Information
 - **Group Designation:** DROPPER_6
 - **Student Number and Full Name of Group Members:**
-  - up202108852 - Inês Martin Soares (contribution: 60%)
-  - up202109256 - Patrícia Palmira de Sousa (contribution: 40%)
+  - up202108852 - Inês Martin Soares (contribution: 90%)
+  - up202109256 - Patrícia Palmira de Sousa (contribution: 10%)
 
 ## Installation and Execution
 
